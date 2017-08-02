@@ -44,6 +44,8 @@ const getGrades = (schoolId) => {
     });
 };
 
+
+
 const getStatus = (userId) => {
     let user;
 
@@ -72,8 +74,48 @@ const getStatus = (userId) => {
 
 };
 
-getStatus(1).then((state) => {
+// async await
+
+/* () => {
+    return new new Promise((resolve, reject) => {
+        resolve('Mike');
+
+    });
+};
+ */
+
+const getStatusAlt = async (userId) => {
+    const user = await getUser(userId);
+    const grades = await getGrades(user.schoolId);
+
+    let average = 0;
+    console.log(grades);
+    if (grades.length > 0) {
+
+        for (let i = 0; i < grades.length; i++) {
+            average = average + grades[i].grade;
+            console.log(average);
+        }
+
+
+        return average / grades.length;
+
+
+    } else {
+        return 0;
+    }
+
+
+};
+
+getStatusAlt(1).then((status) => {
+    console.log(status);
+}).catch((e) => {
+    console.log('error:', e);
+});
+
+/* getStatus(1).then((state) => {
     console.log(state);
 }).catch((e) => {
     console.log(e);
-});
+}); */
