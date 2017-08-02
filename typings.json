@@ -1,4 +1,7 @@
 {
   "name": "try_async",
-  "dependencies": {}
+  "dependencies": {},
+  "globalDependencies": {
+    "axios": "registry:dt/axios#0.9.1+20161016142654"
+  }
 }
