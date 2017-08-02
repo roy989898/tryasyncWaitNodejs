@@ -4,16 +4,37 @@
 const axios = require('axios');
 
 const getExchangeRate = async (from, to) => {
-    const response = await axios.get('http://api.fixer.io/latest?base=' + from);
-    return response.data.rates[to];
+
+    try {
+        const response = await axios.get('http://api.fixer.io/latest?base=' + from);
+        const rate = response.data.rates[to];
+
+        if (rate) {
+            return rate;
+        } else {
+            throw new Error();
+
+        }
+    } catch (error) {
+        throw new Error('Unable to get exchange rate for ' + from + ' to ' + to);
+    }
+
+
 
 };
 
 const getCountries = async (currencyCode) => {
-    const res = await axios.get('https://restcountries.eu/rest/v2/currency/' + currencyCode);
-    return res.data.map((country) => {
-        return country.name;
-    });
+
+    try {
+        const res = await axios.get('https://restcountries.eu/rest/v2/currency/' + currencyCode);
+        return res.data.map((country) => {
+            return country.name;
+        });
+    } catch (error) {
+        throw new Error('Unable to get country that use ' + currencyCode);
+
+    }
+
 };
 
 
@@ -40,8 +61,10 @@ const convertCurrencyAlt = async (from, to, amount) => {
         countries.join(',');
 };
 
-convertCurrencyAlt('CAD', 'USD', 100).then((status) => {
+convertCurrencyAlt('USD', 'HKD', 1).then((status) => {
     console.log(status);
+}).catch((e) => {
+    console.log(e);
 });
 
 /* getCountries('CAD').then((countries) => {
