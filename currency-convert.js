@@ -26,12 +26,22 @@ const convertCurrency = (from, to, amount) => {
     }).then((rate) => {
         const exchangedAmount = amount * rate;
 
-        return amount + from + ' is worth ' + exchangedAmount + to+' can be us at below '+
-        countries.join(',');
+        return amount + from + ' is worth ' + exchangedAmount + to + ' can be us at below ' +
+            countries.join(',');
     });
 };
 
-convertCurrency('CAD', 'USD', 100).then((status) => {
+
+const convertCurrencyAlt = async (from, to, amount) => {
+    let countries = await getCountries(to);
+    let exchangeRate = await getExchangeRate(from, to);
+    let exchangedAmount = amount * exchangeRate;
+
+    return amount + from + ' is worth ' + exchangedAmount + to + ' can be us at below ' +
+        countries.join(',');
+};
+
+convertCurrencyAlt('CAD', 'USD', 100).then((status) => {
     console.log(status);
 });
 
